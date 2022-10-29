@@ -1,10 +1,12 @@
-import { AccountModel } from './../../../domain/models/account'
-import { LoadAccountByEmailRepository } from '../../protocols/db/load-account-by-email-repository'
 import { DbAuthentication } from './db-authentication'
-import { AuthenticationModel } from '../../../domain/usercases/authetication'
-import { HashComparer } from '../../protocols/criptography/hash-comparer'
-import { TokenGenerator } from '../../protocols/criptography/token-generate'
-import { UpdatedAccessTokenRepository } from '../../protocols/db/update-access-token-repository'
+import {
+  AccountModel,
+  LoadAccountByEmailRepository,
+  AuthenticationModel,
+  HashComparer,
+  TokenGenerator,
+  UpdatedAccessTokenRepository
+} from './db-authentication-protocols'
 
 const makeFackAccount = (): AccountModel => ({
   id: 'any_id',
