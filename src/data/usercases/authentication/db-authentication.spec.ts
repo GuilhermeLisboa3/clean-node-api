@@ -49,7 +49,7 @@ const makeEncrypter = (): Encrypter => {
 
 const makeUpdatedAccessTokenRepositoryStub = (): UpdatedAccessTokenRepository => {
   class UpdatedAccessTokenRepositoryStub implements UpdatedAccessTokenRepository {
-    async update (id: string, token: string): Promise<void> {
+    async updateAccessToken (id: string, token: string): Promise<void> {
       return new Promise(resolve => resolve())
     }
   }
@@ -138,13 +138,13 @@ describe('DbAuthetication UseCase', () => {
   })
   it('should call UpdatedAccessTokenRepository with correct values', async () => {
     const { sut, updatedAccessTokenRepositoryStub } = makeSut()
-    const generateSpy = jest.spyOn(updatedAccessTokenRepositoryStub, 'update')
+    const generateSpy = jest.spyOn(updatedAccessTokenRepositoryStub, 'updateAccessToken')
     await sut.auth(makeFakeAuthentication())
     expect(generateSpy).toHaveBeenCalledWith('any_id', 'any_token')
   })
   it('should throw if UpdatedAccessTokenRepository throws', async () => {
     const { sut, updatedAccessTokenRepositoryStub } = makeSut()
-    jest.spyOn(updatedAccessTokenRepositoryStub, 'update').mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())))
+    jest.spyOn(updatedAccessTokenRepositoryStub, 'updateAccessToken').mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())))
     const promise = sut.auth(makeFakeAuthentication())
     await expect(promise).rejects.toThrow()
   })
