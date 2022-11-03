@@ -8,7 +8,7 @@ import {
   UpdatedAccessTokenRepository
 } from './db-authentication-protocols'
 
-const makeFackAccount = (): AccountModel => ({
+const makeFakeAccount = (): AccountModel => ({
   id: 'any_id',
   name: 'any_name',
   email: 'any_email@email.com',
@@ -23,7 +23,7 @@ const makeFakeAuthentication = (): AuthenticationModel => ({
 const makeLoadAccountByEmailRepository = (): LoadAccountByEmailRepository => {
   class LoadAccountByEmailRepositoryStub implements LoadAccountByEmailRepository {
     async loadByEmail (email: string): Promise<AccountModel> {
-      return new Promise(resolve => resolve(makeFackAccount()))
+      return new Promise(resolve => resolve(makeFakeAccount()))
     }
   }
   return new LoadAccountByEmailRepositoryStub()
