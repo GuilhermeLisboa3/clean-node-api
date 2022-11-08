@@ -23,5 +23,8 @@ export const MongoHelper = {
   },
   parseToObjectId (value: string): ObjectId {
     return new ObjectId(value)
+  },
+  mapCollection: (collection: any[]): any[] => {
+    return collection.map(c => MongoHelper.map(c))
   }
 }
