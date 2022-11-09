@@ -1,10 +1,10 @@
-import { AddAccountRepository } from '../../../../data/protocols/db/account/add-account-repository'
-import { LoadAccountByEmailRepository } from '../../../../data/protocols/db/account/load-account-by-email-repository'
-import { LoadAccountByTokenRepository } from '../../../../data/protocols/db/account/load-account-by-token-repository'
-import { UpdatedAccessTokenRepository } from '../../../../data/protocols/db/account/update-access-token-repository'
-import { AccountModel } from '../../../../domain/models/account'
-import { AddAccountModel } from '../../../../domain/usercases/add-account'
 import { MongoHelper } from '../helpers/mongo-helper'
+import { AccountModel } from '@/domain/models/account'
+import { AddAccountModel } from '@/domain/usercases/add-account'
+import { AddAccountRepository } from '@/data/protocols/db/account/add-account-repository'
+import { LoadAccountByEmailRepository } from '@/data/protocols/db/account/load-account-by-email-repository'
+import { LoadAccountByTokenRepository } from '@/data/protocols/db/account/load-account-by-token-repository'
+import { UpdatedAccessTokenRepository } from '@/data/protocols/db/account/update-access-token-repository'
 
 export class AccountMongoRepository implements
 AddAccountRepository,
