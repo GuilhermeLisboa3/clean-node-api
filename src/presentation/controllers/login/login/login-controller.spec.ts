@@ -29,7 +29,7 @@ const makeFakeRequest = (): HttpRequest => ({
     password: 'any_password'
   }
 })
-interface SutTypes {
+type SutTypes = {
   sut: LoginController
   authenticationStub: Authentication
   validationStub: Validation
