@@ -40,7 +40,7 @@ const makeFakeAccountData = (): AddAccountModel => ({
   email: 'valid_email@email.com',
   password: 'valid_password'
 })
-interface SutTypes {
+type SutTypes = {
   sut: DbAddAccount
   hasherStub: Hasher
   addAccountRepositoryStub: AddAccountRepository

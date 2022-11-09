@@ -34,13 +34,13 @@ const makeValidation = (): Validation => {
   }
   return new ValidationStub()
 }
-interface sutTypes {
+type SutTypes = {
   sut: SignUpController
   addAccountStub: AddAccount
   validationStub: Validation
   authenticationStub: Authentication
 }
-const makeSut = (): sutTypes => {
+const makeSut = (): SutTypes => {
   const authenticationStub = makeAuthentication()
   const addAccountStub = makeAddAccount()
   const validationStub = makeValidation()
