@@ -3,7 +3,7 @@ import { LoginController } from './login-controller'
 import { Validation } from '../signup/signup-controller-protocols'
 import { unauthorized, serverError, badRequest, ok } from '@/presentation/helpers/http/http-helper'
 import { MissingParamError } from '@/presentation/errors'
-import { AuthenticationModel } from '@/domain/usercases/authetication'
+import { AuthenticationModel } from '@/domain/usercases/account/authetication'
 
 const makeValidation = (): Validation => {
   class ValidationStub implements Validation {
