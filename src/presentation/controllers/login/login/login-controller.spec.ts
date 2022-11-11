@@ -3,7 +3,7 @@ import { LoginController } from './login-controller'
 import { Validation } from '../signup/signup-controller-protocols'
 import { unauthorized, serverError, badRequest, ok } from '@/presentation/helpers/http/http-helper'
 import { MissingParamError } from '@/presentation/errors'
-import { AuthenticationModel } from '@/domain/usercases/account/authetication'
+import { AuthenticationParams } from '@/domain/usercases/account/authetication'
 
 const makeValidation = (): Validation => {
   class ValidationStub implements Validation {
@@ -16,7 +16,7 @@ const makeValidation = (): Validation => {
 
 const makeAuthentication = (): Authentication => {
   class AuthenticationStub implements Authentication {
-    async auth (authentication: AuthenticationModel): Promise<string> {
+    async auth (authentication: AuthenticationParams): Promise<string> {
       return new Promise(resolve => resolve('any_token'))
     }
   }
