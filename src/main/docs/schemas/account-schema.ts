@@ -2,7 +2,7 @@
 export const accountSchema = {
   type: 'object',
   properties: {
-    acceddToken: {
+    accessToken: {
       type: 'string'
     }
   }
