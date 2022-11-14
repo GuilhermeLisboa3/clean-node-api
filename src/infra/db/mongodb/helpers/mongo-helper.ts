@@ -26,5 +26,9 @@ export const MongoHelper = {
   },
   mapCollection: (collection: any[]): any[] => {
     return collection.map(c => MongoHelper.map(c))
+  },
+  SurveyMap (collection: any): any {
+    const { surveyId, ...data } = collection
+    return Object.assign({}, data, { surveyId: surveyId.toString() })
   }
 }
