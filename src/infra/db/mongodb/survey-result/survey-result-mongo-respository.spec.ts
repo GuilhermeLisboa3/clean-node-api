@@ -66,18 +66,17 @@ describe('Account Mongo Repository', () => {
       const survey = await makeSurvey()
       const account = await makeAccount()
       const sut = makeSut()
-      const surveyResult = await sut.save({
+      await sut.save({
         surveyId: survey.id,
         accountId: account.id,
         answer: survey.answers[0].answer,
         date: new Date()
       })
+      const surveyResult = await surveyResultCollection.findOne({
+        surveyId: MongoHelper.parseToObjectId(survey.id),
+        accountId: MongoHelper.parseToObjectId(account.id)
+      })
       expect(surveyResult).toBeTruthy()
-      expect(surveyResult.surveyId).toEqual(survey.id)
-      expect(surveyResult.answers[0].count).toBe(1)
-      expect(surveyResult.answers[0].percent).toBe(100)
-      expect(surveyResult.answers[1].count).toBe(0)
-      expect(surveyResult.answers[1].percent).toBe(0)
     })
 
     it('should update survey result if its not new', async () => {
@@ -92,19 +91,18 @@ describe('Account Mongo Repository', () => {
       const surveyOne = await surveyResultCollection.findOne({ _id: res.insertedId })
       MongoHelper.map(surveyOne)
       const sut = makeSut()
-      const surveyResult = await sut.save({
+      await sut.save({
         surveyId: survey.id,
         accountId: account.id,
         answer: survey.answers[1].answer,
         date: new Date()
       })
+      const surveyResult = await surveyResultCollection.find({
+        surveyId: MongoHelper.parseToObjectId(survey.id),
+        accountId: MongoHelper.parseToObjectId(account.id)
+      }).toArray()
       expect(surveyResult).toBeTruthy()
-      expect(surveyResult.surveyId).toEqual(survey.id)
-      expect(surveyResult.answers[0].answer).toBe(survey.answers[1].answer)
-      expect(surveyResult.answers[0].count).toBe(1)
-      expect(surveyResult.answers[0].percent).toBe(100)
-      expect(surveyResult.answers[1].count).toBe(0)
-      expect(surveyResult.answers[1].percent).toBe(0)
+      expect(surveyResult.length).toBe(1)
     })
   })
 
