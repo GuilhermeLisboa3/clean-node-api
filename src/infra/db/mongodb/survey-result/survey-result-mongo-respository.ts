@@ -1,4 +1,4 @@
-import { MongoHelper, QueryBuilder } from './../helpers'
+import { MongoHelper, QueryBuilder } from '@/infra/db/mongodb/helpers'
 import { SaveSurveyResultRepository } from '@/data/protocols/db/survey-result/save-survey-result-repository'
 import { SurveyResultModel } from '@/domain/models/survey-result'
 import { SaveSurveyResultParams } from '@/domain/usercases/survey-result/save-survey-result'
@@ -175,6 +175,6 @@ export class SurveyResultMongoRepository implements SaveSurveyResultRepository, 
       })
       .build()
     const surveyResult = await surveyResultCollection.aggregate(query).toArray()
-    return surveyResult?.length ? MongoHelper.SurveyMap(surveyResult[0]) : null
+    return surveyResult.length ? MongoHelper.SurveyMap(surveyResult[0]) : null
   }
 }
