@@ -1,4 +1,4 @@
 
 export interface Decrypter {
-  decrypt: (value: string) => Promise<string>
+  decrypt: (iphertext: string) => Promise<string>
 }

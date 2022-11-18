@@ -1,20 +1,19 @@
 import { DbLoadSurveys } from './db-load-surveys'
-import { LoadSurveysRepository } from './db-load-surveys-protocols'
-import { throwError, mockSurveysModels } from '@/domain/test'
-import { mockLoadSurveysRepository } from '@/data/test'
+import { LoadSurveysRepositorySpy } from '@/data/test'
+import { throwError } from '@/domain/test'
 import MockDate from 'mockdate'
 
 type SutTypes = {
   sut: DbLoadSurveys
-  loadSurveysRepository: LoadSurveysRepository
+  loadSurveysRepositorySpy: LoadSurveysRepositorySpy
 }
 
 const makeSut = (): SutTypes => {
-  const loadSurveysRepository = mockLoadSurveysRepository()
-  const sut = new DbLoadSurveys(loadSurveysRepository)
+  const loadSurveysRepositorySpy = new LoadSurveysRepositorySpy()
+  const sut = new DbLoadSurveys(loadSurveysRepositorySpy)
   return {
     sut,
-    loadSurveysRepository
+    loadSurveysRepositorySpy
   }
 }
 
@@ -28,21 +27,20 @@ describe('DbLoadSurvey', () => {
   })
 
   it('should call LoadSurveysRepository', async () => {
-    const { sut, loadSurveysRepository } = makeSut()
-    const loadAllSpy = jest.spyOn(loadSurveysRepository, 'loadAll')
+    const { sut, loadSurveysRepositorySpy } = makeSut()
     await sut.load()
-    expect(loadAllSpy).toHaveBeenCalled()
+    expect(loadSurveysRepositorySpy.callsCount).toBe(1)
   })
 
   it('should return a list of Surveys success', async () => {
-    const { sut } = makeSut()
+    const { sut, loadSurveysRepositorySpy } = makeSut()
     const surveys = await sut.load()
-    expect(surveys).toEqual(mockSurveysModels())
+    expect(surveys).toEqual(loadSurveysRepositorySpy.surveyModels)
   })
 
   it('should throws if LoadSurveysRepository throws', async () => {
-    const { sut, loadSurveysRepository } = makeSut()
-    jest.spyOn(loadSurveysRepository, 'loadAll').mockImplementationOnce(throwError)
+    const { sut, loadSurveysRepositorySpy } = makeSut()
+    jest.spyOn(loadSurveysRepositorySpy, 'loadAll').mockImplementationOnce(throwError)
     const promise = sut.load()
     await expect(promise).rejects.toThrow()
   })
