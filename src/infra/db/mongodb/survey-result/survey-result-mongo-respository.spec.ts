@@ -13,13 +13,13 @@ const makeSut = (): SurveyResultMongoRepository => {
   return new SurveyResultMongoRepository()
 }
 
-const makeSurvey = async (): Promise<SurveyModel> => {
+const mockSurvey = async (): Promise<SurveyModel> => {
   const res = await surveyCollection.insertOne(mockAddSurveyParams())
   const survey = await surveyCollection.findOne({ _id: res.insertedId })
   return MongoHelper.map(survey)
 }
 
-const makeAccount = async (): Promise<AccountModel> => {
+const mockAccount = async (): Promise<AccountModel> => {
   const res = await accountCollection.insertOne(mockAddAccountParams())
   const account = await accountCollection.findOne({ _id: res.insertedId })
   return MongoHelper.map(account)
@@ -49,8 +49,8 @@ describe('SurveyMongoRepository', () => {
 
   describe('save()', () => {
     it('should add a survey result if its new', async () => {
-      const survey = await makeSurvey()
-      const account = await makeAccount()
+      const survey = await mockSurvey()
+      const account = await mockAccount()
       const sut = makeSut()
       await sut.save({
         surveyId: survey.id,
@@ -66,8 +66,8 @@ describe('SurveyMongoRepository', () => {
     })
 
     it('should update survey result if its not new', async () => {
-      const survey = await makeSurvey()
-      const account = await makeAccount()
+      const survey = await mockSurvey()
+      const account = await mockAccount()
       const res = await surveyResultCollection.insertOne({
         surveyId: MongoHelper.parseToObjectId(survey.id),
         accountId: MongoHelper.parseToObjectId(account.id),
@@ -94,8 +94,8 @@ describe('SurveyMongoRepository', () => {
 
   describe('LoadBySurveyId', () => {
     it('should load survey result', async () => {
-      const survey = await makeSurvey()
-      const account = await makeAccount()
+      const survey = await mockSurvey()
+      const account = await mockAccount()
       await surveyResultCollection.insertMany([{
         surveyId: MongoHelper.parseToObjectId(survey.id),
         accountId: MongoHelper.parseToObjectId(account.id),
@@ -118,7 +118,7 @@ describe('SurveyMongoRepository', () => {
     })
 
     it('should return null if there is no survey result', async () => {
-      const survey = await makeSurvey()
+      const survey = await mockSurvey()
       const sut = makeSut()
       const surveyResult = await sut.loadBySurveyId(survey.id)
       expect(surveyResult).toBeNull()
