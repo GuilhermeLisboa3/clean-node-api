@@ -1,4 +1,4 @@
-import { SaveSurveyResultParams } from '@/domain/usercases'
+import { SaveSurveyResultParams } from '@/domain/usecases'
 import { SurveyResultModel } from '@/domain/models'
 import faker from 'faker'
 

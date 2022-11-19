@@ -1,4 +1,4 @@
-import { DbAddAccount } from '@/data/usercases'
+import { DbAddAccount } from '@/data/usecases'
 import { mockAccountModel, mockAddAccountParams, throwError } from '@/tests/domain/mocks'
 import { HasherSpy, AddAccountRepositorySpy, LoadAccountByEmailRepositorySpy } from '@/tests/data/mocks'
 
@@ -56,17 +56,17 @@ describe('DbAddAccount Usercase', () => {
     await expect(promise).rejects.toThrow()
   })
 
-  it('should return an account on success', async () => {
-    const { sut, addAccountRepositorySpy } = makeSut()
-    const account = await sut.add(mockAddAccountParams())
-    expect(account).toEqual(addAccountRepositorySpy.accountModel)
+  it('should return true if LoadAccountByEmailRepository returns null', async () => {
+    const { sut } = makeSut()
+    const isValid = await sut.add(mockAddAccountParams())
+    expect(isValid).toBe(true)
   })
 
-  it('should return null if LoadAccountByEmailRepository not return null', async () => {
+  it('should return false if LoadAccountByEmailRepository returns an account', async () => {
     const { sut, loadAccountByEmailRepositorySpy } = makeSut()
     loadAccountByEmailRepositorySpy.accountModel = mockAccountModel()
-    const account = await sut.add(mockAddAccountParams())
-    expect(account).toBeNull()
+    const isValid = await sut.add(mockAddAccountParams())
+    expect(isValid).toBe(false)
   })
 
   it('should call LoadAccountByEmailRepository with correct email', async () => {

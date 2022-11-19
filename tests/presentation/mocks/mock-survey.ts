@@ -1,4 +1,4 @@
-import { LoadSurveys, LoadSurveyById, AddSurvey, AddSurveyParams } from '@/domain/usercases'
+import { LoadSurveys, LoadSurveyById, AddSurvey, AddSurveyParams } from '@/domain/usecases'
 import { SurveyModel } from '@/domain/models'
 import { mockSurveysModels, mockSurveyModel } from '@/tests/domain/mocks'
 

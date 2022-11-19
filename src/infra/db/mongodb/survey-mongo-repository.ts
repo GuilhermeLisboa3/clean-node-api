@@ -1,6 +1,6 @@
 import { MongoHelper, QueryBuilder } from '@/infra/db/mongodb'
 import { AddSurveyRepository, LoadSurveyByIdRepository, LoadSurveysRepository } from '@/data/protocols'
-import { AddSurveyParams } from '@/domain/usercases'
+import { AddSurveyParams } from '@/domain/usecases'
 import { SurveyModel } from '@/domain/models'
 
 export class SurveyMongoRepository implements AddSurveyRepository, LoadSurveysRepository, LoadSurveyByIdRepository {

@@ -1,4 +1,4 @@
-import { DbLoadSurveyResult } from '@/data/usercases'
+import { DbLoadSurveyResult } from '@/data/usecases'
 import { LoadSurveyResultRepositorySpy, LoadSurveyByIdRepositorySpy } from '@/tests/data/mocks'
 import { throwError } from '@/tests/domain/mocks'
 import MockDate from 'mockdate'

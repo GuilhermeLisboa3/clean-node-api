@@ -1,4 +1,4 @@
-import { SaveSurveyResult, SaveSurveyResultParams, LoadSurveyResult } from '@/domain/usercases'
+import { SaveSurveyResult, SaveSurveyResultParams, LoadSurveyResult } from '@/domain/usecases'
 import { SurveyResultModel } from '@/domain/models'
 import { mockSurveyResultModel } from '@/tests/domain/mocks'
 
