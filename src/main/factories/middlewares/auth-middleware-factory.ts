@@ -1,4 +1,4 @@
-import { makeDbLoadAccountByToken } from '../usecases/account/load-account-by-token/db-load-account-by-token-factory.ts'
+import { makeDbLoadAccountByToken } from '../usecases/db-load-account-by-token-factory.ts'
 import { AuthMiddleware } from '@/presentation/middlewares/auth-middleware'
 import { Middleware } from '@/presentation/protocols'
 
