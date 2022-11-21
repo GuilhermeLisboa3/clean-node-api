@@ -5,13 +5,12 @@ import setupStaticFiles from './static-files'
 import setupSwagger from './swagger'
 import express, { Express } from 'express'
 
-const app = async (app: Express): Promise<Express> => {
-  express()
-  await setupApolloServer(app)
+export const setupApp = async (): Promise<Express> => {
+  const app = express()
   setupStaticFiles(app)
   setupSwagger(app)
   setupMiddlewares(app)
   setupRoutes(app)
+  await setupApolloServer(app)
   return app
 }
-export default app
