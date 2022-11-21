@@ -1,4 +1,4 @@
-import { LoadSurveyByIdSpy, LoadSurveyResultSpy } from '../mocks'
+import { CheckSurveyByIdSpy, LoadSurveyResultSpy } from '../mocks'
 import { LoadSurveyResultController } from '@/presentation/controllers'
 import { forbidden, serverError, ok } from '@/presentation/helpers/http/http-helper'
 import { InvalidParamError } from '@/presentation/errors'
@@ -13,18 +13,18 @@ const mockRequest = (): LoadSurveyResultController.Request => ({
 
 type SutTypes = {
   sut: LoadSurveyResultController
-  loadSurveyByIdSpy: LoadSurveyByIdSpy
+  checkSurveyByIdSpy: CheckSurveyByIdSpy
   loadSurveyResultSpy: LoadSurveyResultSpy
 }
 
 const makeSut = (): SutTypes => {
-  const loadSurveyByIdSpy = new LoadSurveyByIdSpy()
+  const checkSurveyByIdSpy = new CheckSurveyByIdSpy()
   const loadSurveyResultSpy = new LoadSurveyResultSpy()
-  const sut = new LoadSurveyResultController(loadSurveyByIdSpy, loadSurveyResultSpy)
+  const sut = new LoadSurveyResultController(checkSurveyByIdSpy, loadSurveyResultSpy)
 
   return {
     sut,
-    loadSurveyByIdSpy,
+    checkSurveyByIdSpy,
     loadSurveyResultSpy
   }
 }
@@ -36,23 +36,23 @@ describe('LoadSurveyResult Controller', () => {
   afterAll(() => {
     MockDate.reset()
   })
-  it('should call LoadSurveyById with correct value', async () => {
-    const { sut, loadSurveyByIdSpy } = makeSut()
+  it('should call checkSurveyById with correct value', async () => {
+    const { sut, checkSurveyByIdSpy } = makeSut()
     const request = mockRequest()
     await sut.handle(request)
-    expect(loadSurveyByIdSpy.id).toBe(request.surveyId)
+    expect(checkSurveyByIdSpy.id).toBe(request.surveyId)
   })
 
-  it('should return 403 if LoadSurveyById returns null', async () => {
-    const { sut, loadSurveyByIdSpy } = makeSut()
-    loadSurveyByIdSpy.surveyModel = null
+  it('should return 403 if checkSurveyById returns false', async () => {
+    const { sut, checkSurveyByIdSpy } = makeSut()
+    checkSurveyByIdSpy.result = false
     const htppResponse = await sut.handle(mockRequest())
     expect(htppResponse).toEqual(forbidden(new InvalidParamError('surveyId')))
   })
 
-  it('should return 500 if LoadSurveyById throws', async () => {
-    const { sut, loadSurveyByIdSpy } = makeSut()
-    jest.spyOn(loadSurveyByIdSpy, 'loadById').mockImplementationOnce(throwError)
+  it('should return 500 if checkSurveyById throws', async () => {
+    const { sut, checkSurveyByIdSpy } = makeSut()
+    jest.spyOn(checkSurveyByIdSpy, 'checkById').mockImplementationOnce(throwError)
     const htppResponse = await sut.handle(mockRequest())
     expect(htppResponse).toEqual(serverError(new Error()))
   })
