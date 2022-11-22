@@ -125,4 +125,51 @@ describe('SurveyResult GraphQl', () => {
       expect(res.body.errors[0].message).toEqual('Access denied')
     })
   })
+
+  describe('SaveSurveyResult Mutation', () => {
+    it('should return an SurveyResult', async () => {
+      const accessToken = await makeAccessToken()
+      const survey = await surveyCollection.insertOne({
+        question: 'Question',
+        answers: [{
+          answer: 'Answer',
+          image: 'http://image-name.com'
+        }, {
+          answer: 'Answer 2'
+        }],
+        date: new Date()
+      })
+      const query = `
+        mutation {
+          saveSurveyResult (surveyId: "${survey.insertedId.toHexString()}", answer: "Answer") {
+            question
+            answers {
+              answer
+              count
+              percent
+              isCurrentAccountAnswer
+            }
+            date
+          }
+        }
+      `
+      const res = await request(app)
+        .post('/graphql')
+        .set('x-access-token', accessToken)
+        .send({ query })
+        .expect(200)
+      expect(res.body.data.saveSurveyResult.question).toBe('Question')
+      expect(res.body.data.saveSurveyResult.answers).toEqual([{
+        answer: 'Answer',
+        count: 1,
+        percent: 100,
+        isCurrentAccountAnswer: true
+      }, {
+        answer: 'Answer 2',
+        count: 0,
+        percent: 0,
+        isCurrentAccountAnswer: false
+      }])
+    })
+  })
 })
