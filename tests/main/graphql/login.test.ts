@@ -23,7 +23,7 @@ describe('Login GraphQl', () => {
     accountCollection = await MongoHelper.getCollection('accounts')
     await accountCollection.deleteMany({})
   })
-  describe('LoginQuey', () => {
+  describe('LoginQuery', () => {
     const query = `
       query {
         login (email: "valid_email@email.com", password: "valid_password"){
