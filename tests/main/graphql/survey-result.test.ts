@@ -171,5 +171,38 @@ describe('SurveyResult GraphQl', () => {
         isCurrentAccountAnswer: false
       }])
     })
+
+    it('should return an AccessDeniedError if no token is provided', async () => {
+      const survey = await surveyCollection.insertOne({
+        question: 'Question',
+        answers: [{
+          answer: 'Answer',
+          image: 'http://image-name.com'
+        }, {
+          answer: 'Answer 2'
+        }],
+        date: new Date()
+      })
+      const query = `
+        mutation {
+          saveSurveyResult (surveyId: "${survey.insertedId.toHexString()}", answer: "Answer") {
+            question
+            answers {
+              answer
+              count
+              percent
+              isCurrentAccountAnswer
+            }
+            date
+          }
+        }
+      `
+      const res = await request(app)
+        .post('/graphql')
+        .send({ query })
+        .expect(403)
+      expect(res.body.data).toBeFalsy()
+      expect(res.body.errors[0].message).toEqual('Access denied')
+    })
   })
 })
